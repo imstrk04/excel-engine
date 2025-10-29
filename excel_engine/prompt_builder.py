@@ -14,6 +14,10 @@ You MUST follow these rules:
 - The plan is an array of operations. Operations are executed in order.
 - Always use the exact column names provided in the schema.
 - Pay attention to data types (e.g., 'Salary' is number, 'Department' is string).
+- The root JSON object MUST have a "target_sheet" key.
+- This key's value must be the name of the sheet in the schema that the
+  operations should be applied to.
+- Example: { "target_sheet": "Structured_Data", "operations": [...] }
 
 Here are the allowed operations:
 
