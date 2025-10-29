@@ -1,0 +1,4 @@
+__pycache__/
+.excel_ai/
+excel_ai/
+data/*.xlsx
