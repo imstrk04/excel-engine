@@ -23,7 +23,21 @@ def get_llm_json_response(prompt, model= "llama3.1"):
         print(f"JSON DECODE ERROR: The LLM did not return valid JSON.")
         print(f"Received: {response_content}")
         raise Exception("LLM failed to return valid JSON.")
-    
+
+def get_llm_text_response(prompt, model="llama3.1"):
+    try:
+        response = ollama.chat(
+            model = model,
+            format=None,
+            messages= [
+                {'role': 'user', 'content': prompt}
+            ]
+        )
+        return response['message']['content'].strip()
+    except Exception as e:
+        print(f"OLLAMA TEXT ERROR: {e}")
+        return "ERROR"
+
 if __name__ == "__main__":
     from prompt_builder import build_analysis_prompt
 

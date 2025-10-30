@@ -1,10 +1,25 @@
 import pandas as pd
 import json
-from typing import Dict, List, Any
+
+from excel_engine.llm_client import get_llm_text_response
+
+SENTIMENT_PROMPT_TEMPLATE = """
+Analyze the sentiment of the following text. 
+Respond with ONLY one word: "Positive", "Negative", or "Neutral".
+Text: "{text}"
+Sentiment:
+"""
+
+SUMMARY_PROMPT_TEMPLATE = """
+You are a text summarizer. Your ONLY job is to summarize the following text in one short sentence.
+Do not talk about the task. Do not add any other text. Output ONLY the summary.
+Text: "{text}"
+Summary:
+"""
 
 class PlanInterpreter:
 
-    def __init__(self, file_path: str):
+    def __init__(self, file_path):
         print(f"Initialising Interpreter and loading data from {file_path}")
         try:
 
@@ -17,11 +32,8 @@ class PlanInterpreter:
             print("Error. Could not read Excel file")
             raise
     
-    def execute_plan(self, plan: Dict[str, Any]) -> Any:
-        """
-        Executes the operations in the JSON plan sequentially.
-        """
-        
+    def execute_plan(self, plan):
+
         target_sheet = plan.get('target_sheet')
         if not target_sheet or target_sheet not in self.dataframes:
             raise ValueError(f"Invalid or missing 'target_sheet' in plan. Found: {target_sheet}")
@@ -51,6 +63,9 @@ class PlanInterpreter:
             
             elif op_type == 'JOIN':
                 current_df = self._handle_join(op)
+            
+            elif op_type == 'UNSTRUCTURED_OP':
+                current_df = self._handle_unstructured_op(op, current_df)
             
             else:
                 print(f"WARNING: Unknown operation type '{op_type}'. Skipping.")
@@ -189,6 +204,41 @@ class PlanInterpreter:
         )
         
         return pivot_df.reset_index()
+    
+    def _handle_unstructured_op(self, op, current_df):
+        op_name = op['operation']
+        source_col = op['source_column']
+        new_col = op['new_column']
+        
+        if source_col not in current_df.columns:
+            raise ValueError(f"Unstructured op error: Column '{source_col}' not found.")
+            
+        print(f"⚙️ Executing {op_name} on column '{source_col}'. This may take time...")
+
+
+        def process_row(row_text: str) -> str:
+            if not isinstance(row_text, str) or pd.isna(row_text):
+                return "N/A" 
+            
+            if op_name == 'sentiment_analysis':
+                prompt = SENTIMENT_PROMPT_TEMPLATE.format(text=row_text)
+            elif op_name == 'text_summary':
+                prompt = SUMMARY_PROMPT_TEMPLATE.format(text=row_text)
+            else:
+                return "Unknown Operation"
+            
+            return get_llm_text_response(prompt)
+        
+        print(f"Processing first 10 rows of '{source_col}' as a demonstration...")
+
+        rows_to_process = current_df[source_col].head(10)
+        results = rows_to_process.apply(process_row)
+        current_df[new_col] = results
+
+        current_df[new_col] = current_df[new_col].fillna("N/A (Not Processed)")
+
+        print("...Unstructured processing complete.")
+        return current_df
     
 
 if __name__ == "__main__":
