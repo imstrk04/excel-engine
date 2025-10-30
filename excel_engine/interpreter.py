@@ -17,22 +17,25 @@ class PlanInterpreter:
             print("Error. Could not read Excel file")
             raise
     
-    def execute_plan(self, plan):
+    def execute_plan(self, plan: Dict[str, Any]) -> Any:
+        """
+        Executes the operations in the JSON plan sequentially.
+        """
+        
         target_sheet = plan.get('target_sheet')
         if not target_sheet or target_sheet not in self.dataframes:
-            raise ValueError(f"Invalid or missing: 'target_sheet' in plan. Found {target_sheet}")
-        
+            raise ValueError(f"Invalid or missing 'target_sheet' in plan. Found: {target_sheet}")
+
         current_df = self.dataframes[target_sheet].copy()
-
-        self.final_results = None
-
+        final_result = None
+        
         for op in plan['operations']:
             op_type = op.get('type')
-
-            print("Executing Operation:", op_type)
-
-            if op_type == "FILTER":
+            print(f"Executing operation: {op_type}")
+            
+            if op_type == 'FILTER':
                 current_df = self._handle_filter(op, current_df)
+            
             elif op_type == 'AGGREGATE':
                 final_result = self._handle_aggregate(op, current_df)
                 break
@@ -45,16 +48,18 @@ class PlanInterpreter:
             
             elif op_type == 'PIVOT':
                 current_df = self._handle_pivot(op, current_df)
-        
+            
             elif op_type == 'JOIN':
                 current_df = self._handle_join(op)
-
+            
             else:
                 print(f"WARNING: Unknown operation type '{op_type}'. Skipping.")
-
-        if self.final_results is not None:
-            return self.final_results
+        
+        if final_result is not None:
+            print("Returning aggregated result.")
+            return final_result
         else:
+            print("Returning transformed DataFrame.")
             return json.loads(current_df.to_json(orient='records'))
         
     def _handle_filter(self, op, current_df):

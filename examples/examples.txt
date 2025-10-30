@@ -1,0 +1,41 @@
+Aggregate and max val
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "what is the average salary and max age for the Sales department?"
+}
+
+Filter
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "show me all employees in the Finance department"
+}
+
+Math
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "create a new column 'Bonus' that is Salary * 0.1"
+}
+
+Date Operations
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "extract the year from 'JoiningDate' and call it 'Joining_Year'"
+}
+
+PIVOT
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "pivot by Department as index, Location as columns, and average Salary as values"
+}
+
+Join
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "join 'Structured_Data' with 'Sales_Data' on 'EmployeeID'"
+}
+
+Unstructured
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "analyze the sentiment of 'CustomerFeedback' and call it 'Sentiment'"
+}
