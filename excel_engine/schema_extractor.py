@@ -1,26 +1,6 @@
-"""
-The one and only job of this file is to read an Excel file and report its "shape." 
-It needs to answer the question: "What sheets are in this file, and what columns are in each sheet?" 
-This "shape" is called the schema.
-"""
-
-# imports
 import pandas as pd
-from typing import Dict, List # used for 'type hints'
 
-def get_excel_schema(file_path: str) -> Dict[str, List[str]]:
-    """
-    Reads an excel file and returns a dictionary mapping
-    sheet names to their column names.
-
-    Args:
-        file_path: The full path of .xlsx file.
-    
-    Returns:
-        A dictionary where keys are sheet names and values are
-        list of column names.
-    """
-
+def get_excel_schema(file_path):
     xls = pd.ExcelFile(file_path)
     sheet_names = xls.sheet_names
 

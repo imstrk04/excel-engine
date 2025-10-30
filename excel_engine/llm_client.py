@@ -1,23 +1,8 @@
-"""
-The one and only job of this file is to take the prompt and 
-give JSON response using Llama model from Ollama.
-"""
-
 import ollama
 import json
 from typing import Dict, Any
 
-def get_llm_json_response(prompt: str, model: str = "llama3.1") -> Dict[str, Any]:
-    """
-    Sends a prompt to the local Ollama server and gets a JSON Plan.
-
-    Args:
-        prompt: The fully formatted prompt
-        model: The model name to use
-    
-    Returns:
-        A dictionary containing the parsed JSON Plan.
-    """
+def get_llm_json_response(prompt, model= "llama3.1"):
 
     try:
         response = ollama.chat(

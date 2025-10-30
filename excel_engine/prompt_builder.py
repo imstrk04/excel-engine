@@ -1,12 +1,3 @@
-"""
-The one and only job of this file is to assemble the complete, 
-detailed prompt we'll send to the LLM. 
-It takes the data schema and the user's query and wraps them in
-a set of instructions that "teaches" the LLM how to create our JSON plan.
-"""
-
-from typing import Dict, List
-
 OPERATION_PROMPT_GUIDELINES = """
 You are a data analysis assistant. Your ONLY job is to convert a user's query into a structured JSON operation plan.
 You MUST follow these rules:
@@ -152,7 +143,7 @@ Here are the allowed operations:
    - Allowed operations: sentiment_analysis, text_summary.
 """
 
-def build_analysis_prompt(schema: Dict[str, List[str]], user_query: str) -> str:
+def build_analysis_prompt(schema, user_query):
     """
     Builds the full prompt to send to the LLM.
 
