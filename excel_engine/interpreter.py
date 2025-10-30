@@ -213,10 +213,10 @@ class PlanInterpreter:
         if source_col not in current_df.columns:
             raise ValueError(f"Unstructured op error: Column '{source_col}' not found.")
             
-        print(f"⚙️ Executing {op_name} on column '{source_col}'. This may take time...")
+        print(f"Executing {op_name} on column '{source_col}'. This may take time...")
 
 
-        def process_row(row_text: str) -> str:
+        def process_row(row_text):
             if not isinstance(row_text, str) or pd.isna(row_text):
                 return "N/A" 
             

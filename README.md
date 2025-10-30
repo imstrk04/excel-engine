@@ -100,7 +100,7 @@ petavue-excel-engine/
 │   ├── main.py                # FastAPI app initialization
 │   ├── routes.py              # API endpoint logic
 ├── examples/
-│   ├── examples.json          # Example input of each operations
+│   ├── examples.txt          # Example input of each operations
 ├── excel_engine/
 │   ├── __init__.py
 │   ├── interpreter.py         # The "core original algorithm"

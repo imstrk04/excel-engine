@@ -34,8 +34,14 @@ Join
   "query": "join 'Structured_Data' with 'Sales_Data' on 'EmployeeID'"
 }
 
-Unstructured
+Unstructured - Sentiment Analysis
 {
   "file_path": "data/synthetic_data.xlsx",
-  "query": "analyze the sentiment of 'CustomerFeedback' and call it 'Sentiment'"
+  "query": "analyse the sentiment of 'CustomerFeedback' and call it 'Sentiment'"
+}
+
+Unstructured - Summarise
+{
+  "file_path": "data/synthetic_data.xlsx",
+  "query": "summarize the 'ProductReview' column and call it 'Review_Summary'"
 }
