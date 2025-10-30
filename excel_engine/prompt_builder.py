@@ -1,6 +1,3 @@
-# In: excel_engine/prompt_builder.py
-
-# (This is the new, more robust set of rules)
 OPERATION_PROMPT_GUIDELINES = """
 You are a data analysis assistant. Your ONLY job is to convert a user's query into a structured JSON operation plan.
 You MUST follow these rules:

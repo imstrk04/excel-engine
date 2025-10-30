@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.excel_ai   /
+excel_ai/
+
+.git/
+.gitignore
+
+data/
+
+tests/
+
+Dockerfile
+.dockerignore
