@@ -1,8 +1,6 @@
-# Petavue Excel AI Engine
+# Excel AI Engine
 
 This is an AI-powered REST API designed to analyze and manipulate Excel files using natural language queries. This engine leverages a Large Language Model (LLM) to parse user intent, which is then executed by a secure, custom-built interpreter written in Python.
-
-This project was developed as a technical assignment for Petavue.
 
 ## Problem Statement
 
@@ -246,5 +244,6 @@ This command runs the container and maps your local port 8000 to the container's
 ```bash
 docker run -p 8000:8000 -e OLLAMA_HOST="http://host.docker.internal:11434" petavue-engine
 ```
+
 
 The API will then be available at `http://localhost:8000/docs`.
